@@ -1,13 +1,23 @@
 //const {test, expect} =require('@playwright/test')
-import { test, expect } from '@playwright/test';
-import { login } from './helpers';
+import {test, expect} from '@playwright/test'
+import { clear } from 'console';
 
-test('should login and verify Home page is visible', async ({ page }) => {
-  await login(page, "srishti.mahale@elucidata.io", "Polly@1234");
+  test('Locators', async ({page})=>{
+   
 
-  // Adjust the selector below to match the actual Home page heading or unique element
-  await expect(page.getByURL('https://polly.elucidata.io/manage/omixatlas');
-//await expect(page).toHaveURL('https://polly.elucidata.io/manage/omixatlas');
+    await page.goto("https://polly.elucidata.io/prelogin/home");
+    await page.getByPlaceholder('username@email.com').fill("srishti.mahale@elucidata.io")
 
-  await page.close();
-});
+
+await page.fill('xpath=/html/body/app-root/app-polly-pre-login-main-page/div/div/app-pre-login-main/section/div[2]/app-pre-login-form/div/div[2]/div/form/div[2]/div[1]/p-password/div/input', 'Polly@1234')
+
+await page.click("//button[normalize-space()='Login']") 
+
+
+//await page.getByAltText("Atlas Logo").click()
+
+await expect(page).toHaveURL('https://polly.elucidata.io/manage/omixatlas');
+
+await page.close()
+
+  })
