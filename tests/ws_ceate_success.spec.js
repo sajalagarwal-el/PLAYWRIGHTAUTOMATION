@@ -1,10 +1,7 @@
 //const {test, expect} =require('@playwright/test')
 import {test, expect} from '@playwright/test'
-import { clear } from 'console';
 
   test('Locators', async ({page})=>{
-   
-
     await page.goto("https://polly.elucidata.io/prelogin/home");
     await page.getByPlaceholder('username@email.com').fill("srishti.mahale@elucidata.io")
 
