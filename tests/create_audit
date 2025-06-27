@@ -1,0 +1,25 @@
+import { test } from '@playwright/test';
+import { login } from './helpers';
+
+test('should perform create audit', async ({ page }) => {
+  await login(page);
+
+  await page.locator("//a[@role='tab' and .//span[normalize-space(text())='Data Audits']]").click();
+  await page.goto("https://polly.elucidata.io/manage/audits/20/atlas?name=Srishti_audit_auto");
+
+  await page.locator("//span[normalize-space(text())='Add Datasets']").click();
+  const filterIcon = page.locator("//i[contains(@class, 'filter') and contains(@class, 'polly-icon')]");
+  await filterIcon.waitFor({ state: 'visible', timeout: 120000 });
+  await filterIcon.click();
+
+  await page.locator("//div[contains(@class,'button-container')]//span[normalize-space(text())='disease']").click();
+  await page.locator("//input[@placeholder='Search for disease']").fill('asthma');
+
+  await page.locator(
+    "//li[.//span[normalize-space(text())='asthma exacerbations']]//div[contains(@class, 'cb__container__box')]"
+  ).click();
+
+  await page.goto("https://polly.elucidata.io/manage/workspaces/dashboard");
+
+  await page.close();
+});

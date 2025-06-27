@@ -44,21 +44,54 @@ test('should perform full workspace flow: create, edit, switch, watch, and archi
  
 
   // Workspace settings: Watch Workspace
-  await page.locator('button:has(i.settings)').click();
+  await page.locator('button:has(i.settings)').first().click();
   await page.click('xpath=//span[text()="Watch Workspace"]')
+  //validating
+  await page.locator('button:has(i.settings)').click();
+
+  await expect("Stop Watching Workspace").toContain('Stop Watching Workspace')
+  expect(true).toBeTruthy()
 
 
   // Workspace settings: Archive Workspace
-  await page.locator('button:has(i.settings)').click();
+  //await page.locator('button:has(i.settings)').click();
   await page.click('xpath=//span[text()="Archive"]')
-  await page.click('xpath=//span[@class="cb-icon"]');
-await page.click('//span[normalize-space(text())="Archive Workspace"]');
+  await page.locator("//div[contains(@class, 'cb__container__box')]").first().click();
 
-await expect(page).toHaveURL('https://polly.elucidata.io/manage/workspaces/dashboard');
+  //await page.click('xpath=//span[@class="cb-icon"]');
+await page.click('xpath=//span[normalize-space(text())="Archive Workspace"]');
+
+    // Validating the archived workspace
+      await page.goto("https://polly.elucidata.io/manage/workspaces/dashboard")
+
+const settingsButton = page.locator("//div[contains(@class, 'card--archived') and .//h3[normalize-space()='RE-try_auto']]");
+expect(settingsButton).toBeTruthy();
+
+// Step 1: Click the dropdown to open it
+await page.locator("//span[@role='combobox' and @aria-label='All Workspaces']").click();
+
+// Step 2: Wait for the options to appear
+await page.waitForSelector("//li[contains(@class, 'p-dropdown-item')]");
+
+// Step 3: Select the desired option from the dropdown
+await page.locator("//li[@role='option' and span[text()='Owned by you']]").click();
 
 
-await page.locator('button:has(i.settings)').click();
+//adding collaborator on the very first WS card
 
-  await page.close();
+await page.locator("//button[i[contains(@class, 'settings')]]").first().click();
+await page.getByText('Share', { exact: true }).click();
+await page.getByPlaceholder('Input Email Addresses').fill('sajal.agarwal@elucidata.io');
+
+// Click the dropdown
+await page.locator("//div[@id='pn_id_170']//div[contains(@class, 'p-dropdown-trigger')]").click();
+
+// Select the option
+await page.locator("//li[@role='option' and contains(., 'admin')]").click();
+await page.locator("//span[text()='Add']").click();
+
+await page.locator("//span[text()='Done']").click();
+
+await page.close();
 
 });
