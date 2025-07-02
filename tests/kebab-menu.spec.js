@@ -7,7 +7,13 @@ test('should perform full workspace flow: create, edit, switch, watch, and archi
   await login(page);
 
   await page.goto("https://polly.elucidata.io/manage/workspaces/dashboard")
+
+  await page.waitForLoadState('networkidle');
+
+
   await page.click('xpath=//span[text()="New Workspace"]')
+    await page.waitForLoadState('networkidle');
+
 
   await page.fill('//input[@id="workspace_name"]', 'try_auto')
   await page.click('xpath=//span[text()="Create & Launch"]')
