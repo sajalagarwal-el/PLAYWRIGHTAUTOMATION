@@ -8,8 +8,9 @@ test('should perform create audit', async ({ page }) => {
 
   
 await page.locator("//a[@role='tab' and .//span[normalize-space(text())='Data Audits']]").click();
+console.log("Switched to Data Audits tab", page.url());
 await page.locator("//div[contains(@class, 'button-container')]//span[normalize-space(text())='Create Audit']").click();
-
+console.log("Clicked on Create Audit button");
 
 await page.locator('input[placeholder="Provide a name for this data audit"]').fill('Srishti_audit_auto');
 
@@ -22,24 +23,27 @@ await page.waitForSelector("//li[contains(@class, 'p-dropdown-item') and .='Eluc
 
 // 3. Click on 'ElucidataInc'
 await page.locator("//li[contains(@class, 'p-dropdown-item') and .='ElucidataInc']").click();
-console.log("Option selected");
+console.log("Organisation selected");
 
 await page.locator("//textarea[@formcontrolname='description']").fill("Description for srishti's audit");
-
+console.log("Filled description for audit");
 await page.locator("//span[normalize-space(text())='Launch']").click();
-
+console.log("Clicked on Create button");
+console.log("Waiting for the Data Audit page to load...");
+await page.waitForLoadState('networkidle');
+console.log("Data Audit page loaded successfully");
 await page.locator("//span[normalize-space(text())='Add Datasets']").click();
 const filterIcon = page.locator("//i[contains(@class, 'filter') and contains(@class, 'polly-icon')]");
 await filterIcon.waitFor({ state: 'visible', timeout: 120000 });
 await filterIcon.click();
-
+console.log("Navigated to Add datasets screen");
 await page.locator("//div[contains(@class,'button-container')]//span[normalize-space(text())='disease']").click();
-
+console.log("Clicked on disease button to filter datasets");
 
 
 // 1. Type "asthma" into the search input
 await page.locator("//input[@placeholder='Search for disease']").fill('asthma');
-
+console.log("Filled 'asthma' in the search input");
 
 // Wait for the checkboxes container to be visible
 await page.waitForSelector('div.cb__container', { state: 'visible', timeout: 10000 });
@@ -90,7 +94,7 @@ await checkbox3.waitFor({ state: 'visible' });
 await checkbox3.click();
 
 
-//furth value
+//fourth value
 const checkbox4 = page.locator(
   "//div[contains(@class, 'p-tabview-panels')]//input[@type='checkbox' and @value='atopic asthma']/ancestor::div[contains(@class, 'cb__container')]/div[contains(@class, 'cb__container__box')]"
 );
