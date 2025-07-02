@@ -1,4 +1,3 @@
-
 //const {test, expect} =require('@playwright/test')
 import { test, expect } from '@playwright/test';
 import { login } from './helpers';
@@ -7,11 +6,27 @@ test('should perform create audit', async ({ page }) => {
   //await login(page, "srishti.mahale@elucidata.io", "Polly@1234");
   await login(page);
 
-  await page.waitForLoadState('networkidle');
-
+  
 await page.locator("//a[@role='tab' and .//span[normalize-space(text())='Data Audits']]").click();
-  await page.goto("https://polly.elucidata.io/manage/audits/21/atlas?name=Srishti_audit_auto");
+await page.locator("//div[contains(@class, 'button-container')]//span[normalize-space(text())='Create Audit']").click();
 
+
+await page.locator('input[placeholder="Provide a name for this data audit"]').fill('Srishti_audit_auto');
+
+
+await page.click("//span[@aria-label='Select a Organization']");
+
+
+// 2. Wait for the dropdown list to appear (adjust timeout if slow)
+await page.waitForSelector("//li[contains(@class, 'p-dropdown-item') and .='ElucidataInc']", { timeout: 1200000 });
+
+// 3. Click on 'ElucidataInc'
+await page.locator("//li[contains(@class, 'p-dropdown-item') and .='ElucidataInc']").click();
+console.log("Option selected");
+
+await page.locator("//textarea[@formcontrolname='description']").fill("Description for srishti's audit");
+
+await page.locator("//span[normalize-space(text())='Launch']").click();
 
 await page.locator("//span[normalize-space(text())='Add Datasets']").click();
 const filterIcon = page.locator("//i[contains(@class, 'filter') and contains(@class, 'polly-icon')]");
@@ -32,8 +47,9 @@ await page.waitForSelector('div.cb__container', { state: 'visible', timeout: 100
 
 
 ///first value
-const checkbox1 = page.locator("(//input[@placeholder='Internal Label'])[2]");
-
+const checkbox1 = page.locator(
+  "//div[contains(@class, 'p-tabview-panels')]//input[@type='checkbox' and @value='nonatopic asthma']/ancestor::div[contains(@class, 'cb__container')]/div[contains(@class, 'cb__container__box')]"
+);
 // Scroll into view if needed
 await checkbox1.scrollIntoViewIfNeeded();
 
@@ -90,14 +106,39 @@ await checkbox4.click();
 
 
 
-
-
-
 await page.locator("//span[normalize-space()='Apply Filters']").click();
 await page.locator("//div[contains(@class, 'cb__container__box')]").first().click();
 await page.locator("//span[text()='Add to Data Audit']").click();
 
 
+//manually adding fields
+await page.locator("//span[normalize-space(text())='Options']").click();
+await page.locator("//span[text()='Add Fields Manually']").click();
+await page.locator("//input[@placeholder='Enter the Column Name']").fill("curated_dise");
+
+await page.locator("input[formcontrolname='description']").fill("description");
+
+
+// Click the dropdown to open options
+await page.locator("span[role='combobox'][aria-label*='Select whether you field']").click();
+
+// Wait for the dropdown options to appear
+await page.waitForSelector(".p-dropdown-items");
+
+// Click the option with visible text "Text"
+await page.locator("//li[contains(@class, 'p-dropdown-item') and normalize-space()='Text']").click();
+
+await page.locator("//span[normalize-space(text())='Add Column']").click();
+await page.locator("//tbody/tr[1]/td[2]/app-audit-cell-editor[1]/input[1]").fill("asthma");
+
+await page.locator("//tbody/tr[2]/td[2]/app-audit-cell-editor[1]/input[1]").fill("asthma");
+await page.locator("//tbody/tr[3]/td[2]/app-audit-cell-editor[1]/input[1]").fill("asthma");
+
+await page.locator("//span[text()='Save Column']").click();
+
+await page.locator("//span[text()='Update Values']").click();
+
+//add auto-curated fields
 await page.locator("//span[normalize-space(text())='Options']").click();
 await page.locator("//span[normalize-space(text())='Add Auto-Curated Fields']").click();
 await page.locator("//input[@placeholder='Name the field that you want to add to all datasets']").fill('curated_dis');
@@ -114,14 +155,8 @@ await page.waitForTimeout(1000); // optional short wait
 await page.locator("li >> text=Text").click();
 
 await page.locator("//span[normalize-space()='Submit & Run']").click();
-const statusMessage = await page.locator("text=Custom Fields are being added");
-await expect(statusMessage).toBeTruthy();
-
-
-
-
-
-await page.goto("https://polly.elucidata.io/manage/workspaces/dashboard")
+const statusMessage = page.locator("text=Custom Fields are being added");
+expect(statusMessage).toBeTruthy();
 
 
 await page.close();

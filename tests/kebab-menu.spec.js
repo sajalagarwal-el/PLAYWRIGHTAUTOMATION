@@ -12,7 +12,7 @@ test('should perform full workspace flow: create, edit, switch, watch, and archi
 
 
   await page.click('xpath=//span[text()="New Workspace"]')
-    await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('networkidle');
 
 
   await page.fill('//input[@id="workspace_name"]', 'try_auto')
@@ -75,6 +75,7 @@ expect(settingsButton).toBeTruthy();
 
 // Step 1: Click the dropdown to open it
 await page.locator("//span[@role='combobox' and @aria-label='All Workspaces']").click();
+await page.waitForLoadState('networkidle');
 
 // Step 2: Wait for the options to appear
 await page.waitForSelector("//li[contains(@class, 'p-dropdown-item')]");
@@ -82,6 +83,7 @@ await page.waitForSelector("//li[contains(@class, 'p-dropdown-item')]");
 // Step 3: Select the desired option from the dropdown
 await page.locator("//li[@role='option' and span[text()='Owned by you']]").click();
 
+await page.waitForLoadState('networkidle');
 
 //adding collaborator on the very first WS card
 
@@ -89,11 +91,18 @@ await page.locator("//button[i[contains(@class, 'settings')]]").first().click();
 await page.getByText('Share', { exact: true }).click();
 await page.getByPlaceholder('Input Email Addresses').fill('sajal.agarwal@elucidata.io');
 
-// Click the dropdown
-await page.locator("//div[@id='pn_id_170']//div[contains(@class, 'p-dropdown-trigger')]").click();
+// Step 1: Click the dropdown trigger
+await page.locator("//div[@id='pn_id_989']").click();
 
-// Select the option
-await page.locator("//li[@role='option' and contains(., 'admin')]").click();
+await page.waitForLoadState('networkidle');
+
+// Step 2: Wait for dropdown panel to appear (PrimeNG uses this class)
+await page.locator('.p-dropdown-panel').waitFor({ state: 'visible', timeout: 5000 });
+
+// Step 3: Click the "Admin" option
+await page.locator('.p-dropdown-item', { hasText: 'Admin' }).click();
+
+
 await page.locator("//span[text()='Add']").click();
 
 await page.locator("//span[text()='Done']").click();
