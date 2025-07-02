@@ -48,7 +48,7 @@ test('running NLQ parallely', async ({ page }) => {
 // Now check that it contains the text "geneSpecies"
   await expect(locator).toContainText('GeneSpecies', { timeout: 10000 });
   console.log('✅ "gene and species" are present in the element.');
-  await newTab.screenshot({ path: 'screenshot.png', fullPage: true });
+  await newTab.screenshot({ path: 'screenshots/screenshot.png', fullPage: true });
 
 
 
