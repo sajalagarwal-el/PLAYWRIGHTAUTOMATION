@@ -6,4 +6,6 @@ export async function login(page, username, password)
   await page.click('//button[normalize-space()="Login"]') 
   await page.waitForLoadState('networkidle');
   console.log('Logged in successfully');
+  await page.waitForSelector("//span[normalize-space()='All Atlases']", { timeout: 120000 });
+
 }

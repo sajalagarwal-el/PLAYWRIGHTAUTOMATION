@@ -6,11 +6,14 @@ test('should perform move in diff location and fail at same location', async ({ 
   //await login(page, "srishti.mahale@elucidata.io", "Polly@1234");
   await login(page);
 
-  await page.goto("https://polly.elucidata.io/manage/workspaces/dashboard")
+  await page.goto("https://polly.elucidata.io/manage/workspaces/dashboard");
+      await page.waitForLoadState('networkidle');
+
   
   //going to a WS
   await page.locator("//h3[normalize-space()='test_8junew']").first().click();
-  
+      await page.waitForLoadState('networkidle');
+
 
   //clicking on a file
   await page.locator("//p[normalize-space(text())='report.html']").click();
@@ -34,7 +37,7 @@ await page.locator("//div[contains(@class, 'p-toast-message-text')]//p[normalize
 
   expect("re-report.html").toContain('re-report.html')
   expect(true).toBeTruthy()
-
+console.log("File renamed successfully to re-report.html");
 
   await page.close();
 

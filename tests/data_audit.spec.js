@@ -62,6 +62,7 @@ await checkbox1.waitFor({ state: 'visible' });
 
 // Click the checkbox
 await checkbox1.click();
+console.log("Clicked on the first checkbox for 'nonatopic asthma'");
 
 //second value  
 const checkbox2 = page.locator(
@@ -76,7 +77,7 @@ await checkbox2.waitFor({ state: 'visible' });
 
 // Click the checkbox
 await checkbox2.click();
-
+console.log("Clicked on the second checkbox for 'atopic asthmatic disease'");
 
 
 //third vaue
@@ -92,7 +93,7 @@ await checkbox3.waitFor({ state: 'visible' });
 
 // Click the checkbox
 await checkbox3.click();
-
+console.log("Clicked on the third checkbox for 'obese asthma'");
 
 //fourth value
 const checkbox4 = page.locator(
@@ -107,12 +108,15 @@ await checkbox4.waitFor({ state: 'visible' });
 
 // Click the checkbox
 await checkbox4.click();
-
+console.log("Clicked on the fourth checkbox for 'atopic asthma'");
 
 
 await page.locator("//span[normalize-space()='Apply Filters']").click();
+console.log("Applied filters to the datasets");
+
 await page.locator("//div[contains(@class, 'cb__container__box')]").first().click();
 await page.locator("//span[text()='Add to Data Audit']").click();
+console.log("Added datasets to the Data Audit");
 
 
 //manually adding fields
@@ -121,6 +125,7 @@ await page.locator("//span[text()='Add Fields Manually']").click();
 await page.locator("//input[@placeholder='Enter the Column Name']").fill("curated_dise");
 
 await page.locator("input[formcontrolname='description']").fill("description");
+console.log("Filled in the column name and description for the new field");
 
 
 // Click the dropdown to open options
@@ -139,8 +144,10 @@ await page.locator("//tbody/tr[2]/td[2]/app-audit-cell-editor[1]/input[1]").fill
 await page.locator("//tbody/tr[3]/td[2]/app-audit-cell-editor[1]/input[1]").fill("asthma");
 
 await page.locator("//span[text()='Save Column']").click();
+console.log("Saved the new column with the name 'curated_dise' and filled values");
 
 await page.locator("//span[text()='Update Values']").click();
+console.log("Clicked on Update Values to save changes");
 
 //add auto-curated fields
 await page.locator("//span[normalize-space(text())='Options']").click();
