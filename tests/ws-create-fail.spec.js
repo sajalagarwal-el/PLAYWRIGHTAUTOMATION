@@ -1,4 +1,4 @@
-import {test, expect} from '@playwright/tests'
+import {test, expect} from '@playwright/test'
 import { clear } from 'console';
 
   test('Locators', async ({page})=>{
