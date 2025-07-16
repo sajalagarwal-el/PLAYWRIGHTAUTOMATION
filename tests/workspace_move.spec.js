@@ -10,7 +10,7 @@ test('should perform move in diff location and fail at same location', async ({ 
     await page.waitForLoadState('networkidle');
 
   //going to a WS
-  await page.locator("//h3[normalize-space()='test_8junew']").first().click();
+  await page.locator("//h3[normalize-space()='test_8junew']").click();
   
   await page.waitForLoadState('networkidle');
 
@@ -40,7 +40,7 @@ const closeBtn = page.locator("xpath=//button[contains(@class, 'p-dialog-header-
   await page.locator("//i[contains(@class, 'pan-move') and contains(@class, 'polly-icon')]").click();
   
   // Step 1: Open the dropdown
-  await page.locator("//span[@role='combobox' and @aria-label='RE-try_auto']").click();
+  await page.locator("//span[@role='combobox' and @aria-label='test_8junew']").click();
 await page.waitForTimeout(10000);
 
 // Step 2: Wait for the options to be visible
