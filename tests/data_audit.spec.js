@@ -166,7 +166,6 @@ await page.waitForTimeout(1000); // optional short wait
 await page.locator("li >> text=Text").click();
 
 await page.locator("//span[normalize-space()='Submit & Run']").click();
-console.log("Auto curation process started");
 const statusMessage = page.locator("text=Custom Fields are being added");
 expect(statusMessage).toBeTruthy();
 
