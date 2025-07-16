@@ -59,6 +59,13 @@ await page.locator("//div[contains(@class, 'button-container')]//span[normalize-
 console.log('Clicked on Launch button');
 
 
+const newTab = await page.context().waitForEvent('page');
+await newTab.waitForLoadState();
+console.log('New tab opened for Polly Notebook', newTab.url());
+
+await page.locator("//p[normalize-space()='Your Notebook is launching']").waitFor({ state: 'visible', timeout: 10000 });
+console.log('Notebook is launching, waiting for it to be ready');
+
  // expect("re-report.html").toContain('re-report.html')
   //expect(true).toBeTruthy()
 
