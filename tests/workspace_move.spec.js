@@ -10,7 +10,7 @@ test('should perform move in diff location and fail at same location', async ({ 
     await page.waitForLoadState('networkidle');
 
   //going to a WS
-  await page.locator("//h3[normalize-space()='test_8junew']").click();
+  await page.locator("//h3[normalize-space()='test_8junew']").first().click();
   
   await page.waitForLoadState('networkidle');
 
