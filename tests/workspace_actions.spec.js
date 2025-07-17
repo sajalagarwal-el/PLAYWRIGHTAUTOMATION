@@ -374,7 +374,6 @@ await page.locator("//p[normalize-space(text())='Polly Notebook Mon Jun 09 2025 
 
 console.log("Starting delete operation");
 
-
   //delete
   await page.locator('input[placeholder="Search for workspace content"]').fill('renamed folder');
   await page.waitForTimeout(2000); // Optional delay — adjust if search is async
