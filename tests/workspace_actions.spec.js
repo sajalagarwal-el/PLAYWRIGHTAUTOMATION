@@ -370,7 +370,7 @@ await page.locator("//p[normalize-space(text())='Polly Notebook Mon Jun 09 2025 
   console.log('New tab opened for Polly Notebook', newTab.url());
 
   await newTab.locator("//p[normalize-space()='Your Notebook is launching']").waitFor({ state: 'visible', timeout: 10000 });
-  console.log('Notebook is launching, waiting for it to be ready');
+  console.log('Notebook is launching, waiting for it to be ready...');
 
 console.log("Starting delete operation");
 
