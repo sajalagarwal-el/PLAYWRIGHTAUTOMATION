@@ -405,8 +405,6 @@ console.log("Starting delete operation");
   expect(true).toBeTruthy()
 
 
-
-
   //await page.waitForLoadState('networkidle');
 
 
@@ -420,7 +418,6 @@ console.log("Starting delete operation");
 
   
         //await page.waitForLoadState('networkidle');
-
 
 
       // Validating the archived workspace
