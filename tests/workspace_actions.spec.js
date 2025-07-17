@@ -23,15 +23,15 @@ console.log("Navigated to Workspaces Dashboard");
   await page.click('i.create-new-folder.polly-icon.ng-star-inserted');
   await page.getByPlaceholder("Enter folder name").fill("test folder");
   await page.click('xpath=//span[text()="Create"]')
-console.log("Created a new folder named 'test folder'");
+  console.log("Created a new folder named 'test folder'");
 
 
   // Workspace settings: Info
   await page.locator('button:has(i.settings)').click();
   await page.getByText('Info').click();
   //await page.locator('span.p-dialog-header-close-icon.pi-times').click();
-  const closeBtn = page.locator("xpath=//button[contains(@class, 'p-dialog-header-close')]")
-  await closeBtn.click()
+  const closeBtn1 = page.locator("xpath=//button[contains(@class, 'p-dialog-header-close')]")
+  await closeBtn1.click()
 
 
 
@@ -45,11 +45,7 @@ console.log("Created a new folder named 'test folder'");
   await page.click('xpath=//span[text()="Save Changes"]')
 console.log("Edited workspace details: name, tags, and description");
 
-  // Workspace settings: Quick Switch Workspace
-  await page.locator('button:has(i.settings)').click();
-  await page.click('xpath=//span[text()="Quick Switch Workspace"]')
-  await page.click('xpath=//p[normalize-space(text())="RE-try_auto"]')
-  console.log("Switched to workspace 'RE-try_auto' using Quick Switch");
+  
  
 
   // Workspace settings: Watch Workspace
@@ -87,6 +83,267 @@ await page.waitForTimeout(10000);
 
 await page.locator("//span[normalize-space()='Done']").click();
 console.log("Added collaborator");
+
+
+// Workspace settings: Quick Switch Workspace
+  await page.locator('button:has(i.settings)').click();
+  await page.click('xpath=//span[text()="Quick Switch Workspace"]')
+  await page.click('xpath=//p[normalize-space(text())="WS for automation"]')
+  console.log("Switched to workspace 'WS for automation' using Quick Switch");
+    await page.waitForLoadState('networkidle');
+
+  
+  //clicking on a file
+  await page.locator("//p[normalize-space(text())='Polly Notebook Mon Jun 09 2025 7_54_22 PM.ipynb']").click();
+
+console.log("Starting move operation");
+  //clicking on the move icon
+  await page.locator("//i[contains(@class, 'pan-move') and contains(@class, 'polly-icon')]").click();
+// Step 1: Open the dropdown
+  await page.locator("//span[@role='combobox' and @aria-label='RE-try_auto']").click();
+await page.waitForTimeout(10000);
+
+// Step 2: Wait for the options to be visible
+  await page.waitForSelector("//li[contains(@class, 'p-dropdown-item')]");
+
+// Step 3: Click the specific option
+  await page.locator("//p[normalize-space()='WS for automation']").click();
+
+  await page.locator("//span[normalize-space(text())='Move']").click();
+
+
+  expect("Destination matches the Source").toContain('Destination matches the Source')
+  expect(true).toBeTruthy()
+  console.log("Move operation failed as expected: Destination matches the Source");
+
+  //await page.locator("//button[.//svg[@class='p-dialog-header-close-icon p-icon']]").click();
+  const closeBtn2 = page.locator("xpath=//button[contains(@class, 'p-dialog-header-close')]")
+    await closeBtn2.click()
+ 
+//clicking on a file
+  await page.locator("//p[normalize-space(text())='Polly Notebook Mon Jun 09 2025 7_54_22 PM.ipynb']").click();
+
+
+  //clicking on the move icon
+  await page.locator("//i[contains(@class, 'pan-move') and contains(@class, 'polly-icon')]").click();
+      await page.waitForLoadState('networkidle');
+
+  
+  // Step 1: Open the dropdown
+  await page.locator("//span[@role='combobox' and @aria-label='RE-try_auto']").click();
+await page.waitForTimeout(10000);
+
+
+
+  await page.locator("//span[normalize-space(text())='Move']").click();
+
+console.log("File moved successfully to the new workspace: RE-try_auto");
+
+
+await page.waitForTimeout(10000);
+
+
+//copying
+console.log("Starting copy operation");
+ await page.locator("//p[normalize-space(text())='report3.html']").click();
+
+  //clicking on the copy icon
+ //await page.locator("//i[contains(@class, 'pan-copy') and contains(@class, 'polly-icon')]").click();
+  await page.locator("//button[i[contains(@class, 'duplicate-or-copy')]]").click();
+
+
+// Step 1: Open the dropdown
+  await page.locator("//span[@role='combobox' and @aria-label='RE-try_auto']").click();
+await page.waitForTimeout(10000);
+
+// Step 2: Wait for the options to be visible
+  await page.waitForSelector("//li[contains(@class, 'p-dropdown-item')]");
+
+// Step 3: Click the specific option
+  await page.locator("//p[normalize-space()='WS for automation']").click();
+
+
+
+
+
+  //selecting the same destination folder and click copy 
+  await page.locator("//div[contains(@class, 'button-container')]//span[normalize-space(text())='Copy']").click();
+//await page.getByText('Copy').click();
+
+
+
+
+
+
+  expect("Destination matches the Source").toContain('Destination matches the Source')
+  expect(true).toBeTruthy()
+console.log("Copy operation failed as expected: Destination matches the Source");
+
+  //await page.locator("//button[.//svg[@class='p-dialog-header-close-icon p-icon']]").click();
+const closeBtn = page.locator("xpath=//button[contains(@class, 'p-dialog-header-close')]")
+  await closeBtn.click()
+ 
+//clicking on a file
+  await page.locator("//p[normalize-space(text())='report3.html']").click();
+
+
+  //clicking on the copy icon
+  await page.locator("//button[i[contains(@class, 'duplicate-or-copy')]]").click();
+  
+ /* // Step 1: Open the dropdown
+  await page.locator("//span[@role='combobox' and @aria-label='RE-try_auto']").click();
+await page.waitForTimeout(10000);
+
+// Step 2: Wait for the options to be visible
+  await page.waitForSelector("//li[contains(@class, 'p-dropdown-item')]");
+
+// Step 3: Click the specific option
+  await page.locator("//p[normalize-space()='RE-try_auto']").click();*/
+
+  await page.locator("//div[contains(@class, 'button-container')]//span[normalize-space(text())='Copy']").click();
+
+console.log("File copied successfully to the new workspace: RE-try_auto");
+
+
+//end of copying
+      await page.waitForLoadState('networkidle');
+
+//searching for a file
+
+console.log("Starting search operation");
+  // Fill the search input
+  await page.locator('input[placeholder="Search for workspace content"]').fill('report');
+
+
+// Wait a moment for search results to load (if needed)
+await page.waitForTimeout(2000); // Optional delay — adjust if search is async
+
+// Locate elements with class 'file-title__name' that contain 'report'
+const contentNameLocator = page.locator('.file-title__name', {
+  hasText: 'report'
+});
+
+// Count matching elements
+const count = await contentNameLocator.count();
+console.log(`Found ${count} file(s) containing 'report'`);
+
+// Print the text of each matched file
+for (let i = 0; i < count; i++) {
+  const text = await contentNameLocator.nth(i).innerText();
+  console.log(`→ ${text}`);
+}
+
+await page.waitForTimeout(10000);
+
+
+await page.locator("//p[normalize-space()='report2.html']").first().click();
+
+
+console.log("Starting rename operation");
+//rename
+await page.locator("//i[@class='polly-icon rename ng-star-inserted']").click();
+// Fill the input field that appears
+await page.locator("input[formcontrolname='fileName']").fill('re-report');
+
+// (Optional) Click Save/Confirm if required
+await page.locator("//div[contains(@class, 'button-container')]//span[normalize-space(text())='Rename']").click();
+
+
+//await page.locator("//div[contains(@class, 'p-toast-message-text')]//p[normalize-space(text())='Successfully renamed']").waitFor({ state: 'visible', timeout: 120000 });
+
+await page.waitForLoadState('networkidle');
+
+ await page.locator("//p[normalize-space()='re-report.html']").waitFor({ state: 'visible', timeout: 10000 });
+console.log('The file renamed re-report.html is present in the workspace: WS for automation');
+
+console.log("Starting delete operation");
+
+//delete
+await page.waitForTimeout(10000);
+
+await page.locator("//p[normalize-space()='report4.html']").first().click();
+
+await page.locator("//i[@class='delete polly-icon ng-star-inserted']").click();
+await page.locator("//div[contains(@class, 'cb__container__box')]/span[contains(@class, 'cb-icon')]").click();
+console.log("Checkbox clicked successfully");
+await page.locator("//span[normalize-space()='Delete Files']").click();
+Console.log("File deleted successfully");
+
+
+
+console.log("Returning to thw WS we created using automation");
+
+await page.locator("//i[@class='polly-icon settings ng-star-inserted']").click();
+// Workspace settings: Quick Switch Workspace
+  await page.click('xpath=//span[text()="Quick Switch Workspace"]')
+  await page.click('xpath=//p[normalize-space(text())="RE-try_auto"]')
+  await page.waitForLoadState('networkidle');
+
+console.log("Switched back to workspace: RE-try_auto");
+  await page.locator("//p[normalize-space()='report.html']").waitFor({ state: 'visible', timeout: 10000 });
+console.log('The file named "report.html" that was copied is present in the workspace: RE-try_auto');
+
+
+await page.locator("//p[normalize-space()='Polly Notebook Mon Jun 09 2025 7_54_22 PM.ipynb']").waitFor({ state: 'visible', timeout: 10000 });
+console.log('The file named "Polly Notebook Mon Jun 09 2025 7_54_22 PM.ipynb" that was moved is present in the workspace: RE-try_auto');
+
+
+
+//launching a notebook
+await page.locator("//span[normalize-space(text())='New Analysis']").click();
+  await page.locator("//p[normalize-space(text())='Polly Notebook']").click();
+
+//selecting elucidata R&D from teh list
+// 1. Click the dropdown caret to open the suggestions
+await page.locator("button.p-autocomplete-dropdown").click();
+
+
+// Step 1: Type the initial text to trigger dropdown suggestions
+await page.locator('input[placeholder="Search Client Organization"]').fill('Elucidata');
+console.log('Filled "Elucidata" in the search input');
+// Step 2: Wait for the dropdown options to load
+await page.waitForSelector("li.p-autocomplete-item", { state: "visible", timeout: 120000 });
+console.log('Dropdown options loaded successfully');
+// Step 3: Click on the desired option by its label
+await page.locator("//li[contains(@class, 'p-autocomplete-item') and .//p[text()='ElucidataInc']]").click();
+console.log('Selected "ElucidataInc" from the dropdown');
+
+
+// Step 1: Open dropdown
+await page.locator("//span[@aria-label='Select a Docker']").click();
+
+
+// Optional: wait for the dropdown options to appear
+await page.waitForSelector("li.p-dropdown-item").waitForLoadState;
+console.log('Selected Docker from dropdown');
+// Step 2: Select the desired option
+await page.locator("li.p-dropdown-item", { hasText: 'Python 3.10: Notebook environment for Python 3.10 ' }).click();
+console.log('Selected Notebook environment from the dropdown');
+
+///////////////
+// 1. Click the dropdown trigger to open the options
+await page.locator("//span[@aria-label='Select a Machine']").click();
+
+// 2. Wait for the dropdown options to load
+await page.waitForSelector("li.p-dropdown-item");
+
+// 3. Click the specific option: "Elucidata R&D"
+await page.locator("li.p-dropdown-item", { hasText: 'PollyN medium:2 vCPU, 4GB RAM'}).click();
+console.log('Selected machine from the dropdown');
+
+/////////////////
+
+
+await page.locator("//div[contains(@class, 'button-container')]//span[normalize-space(text())='Launch']").click();
+console.log('Clicked on Launch button');
+
+
+const newTab = await page.context().waitForEvent('page');
+await newTab.waitForLoadState();
+console.log('New tab opened for Polly Notebook', newTab.url());
+
+await page.locator("//p[normalize-space()='Your Notebook is launching']").waitFor({ state: 'visible', timeout: 10000 });
+console.log('Notebook is launching, waiting for it to be ready');
 
 
 
