@@ -102,7 +102,7 @@ await page.goto('https://polly.elucidata.io/manage/workspaces?id=21315');
 
     //clicking on the copy icon
     await page.locator("//button[i[contains(@class, 'duplicate-or-copy')]]").click();
-    
+    await page.waitForTimeout(10000);
   /* // Step 1: Open the dropdown
     await page.locator("//span[@role='combobox' and @aria-label='RE-try_auto']").click();
   await page.waitForTimeout(10000);
@@ -119,35 +119,81 @@ await page.goto('https://polly.elucidata.io/manage/workspaces?id=21315');
 
 
   //end of copying
-        await page.waitForLoadState('networkidle');
+await page.waitForTimeout(10000);
 console.log("File copied successfully to the new workspace: try_auto");
 
 await page.goto(workspaceUrl);
 await page.waitForLoadState('networkidle');
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     await page.click('i.create-new-folder.polly-icon.ng-star-inserted');
     await page.getByPlaceholder("Enter folder name").fill("test folder");
     await page.click('xpath=//span[text()="Create"]')
     console.log("Created a new folder named 'test folder'");
+
+  console.log("Starting search operation");
+    // Fill the search input
+    await page.locator('input[placeholder="Search for workspace content"]').fill('test folder');
+
+
+  // Wait a moment for search results to load (if needed)
+  await page.waitForTimeout(2000); // Optional delay — adjust if search is async
+
+/*
+
+  // Locate elements with class 'file-title__name' that contain 'report'
+  const contentNameLocator = page.locator('.file-title__name', {hasText: 'report'});
+
+  // Count matching elements
+  const count = await contentNameLocator.count();
+  console.log(`Found ${count} file(s) containing 'report'`);
+
+  // Print the text of each matched file
+  for (let i = 0; i < count; i++) {
+    const text = await contentNameLocator.nth(i).innerText();
+    console.log(`→ ${text}`);
+  }
+
+  await page.waitForTimeout(10000);
+
+*/
+  await page.locator("//p[normalize-space()='test folder']").first().click();
+
+
+  console.log("Starting rename operation");
+  //rename
+  await page.locator("//i[@class='polly-icon rename ng-star-inserted']").click();
+  // Fill the input field that appears
+  await page.locator("input[formcontrolname='fileName']").fill('renamed folder');
+
+  // (Optional) Click Save/Confirm if required
+  await page.locator("//div[contains(@class, 'button-container')]//span[normalize-space(text())='Rename']").click();
+ await page.waitForTimeout(5000);
+
+  //await page.locator("//div[contains(@class, 'p-toast-message-text')]//p[normalize-space(text())='Successfully renamed']").waitFor({ state: 'visible', timeout: 120000 });
+
+  await page.waitForLoadState('networkidle');
+  await page.locator('input[placeholder="Search for workspace content"]').fill('');
+  await page.waitForTimeout(2000);
+/*
+
+  // Locate elements with class 'file-title__name' that contain 'report'
+  const contentNameLocator = page.locator('.file-title__name', {hasText: 'report'});
+
+  // Count matching elements
+  const count = await contentNameLocator.count();
+  console.log(`Found ${count} file(s) containing 'report'`);
+
+  // Print the text of each matched file
+  for (let i = 0; i < count; i++) {
+    const text = await contentNameLocator.nth(i).innerText();
+    console.log(`→ ${text}`);
+  }
+
+  await page.waitForTimeout(10000);
+
+*/
+
 
 
     // Workspace settings: Info
@@ -198,9 +244,9 @@ await page.waitForLoadState('networkidle');
 
   // Step 3: Click the "Admin" option
     await page.locator("//span[@class=\"ng-star-inserted\" and normalize-space()='admin']").click();
-    await page.waitForLoadState('networkidle');
-    await page.locator("//span[normalize-space()='Add']").click();
-    await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(5000);
+    await page.locator("//button[@class='d-flex justify-content-center align-items-center nowrap btn-type-secondary btn-size-medium cursor-pointer']//div[@class='button-container d-flex align-items-center label-large gap-1']").click();
+  await page.waitForTimeout(5000);
     await page.locator("//span[normalize-space()='Done']").click();
     console.log("Added collaborator");
 
@@ -222,6 +268,7 @@ await page.locator("//i[@class='polly-icon settings ng-star-inserted']").click()
 
 await page.waitForTimeout(20000); 
 
+*/
 
 
   
