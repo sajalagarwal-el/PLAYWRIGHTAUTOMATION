@@ -370,8 +370,7 @@ await page.locator("//p[normalize-space(text())='Polly Notebook Mon Jun 09 2025 
   const newTab = await page.context().waitForEvent('page');
   await newTab.waitForLoadState();
   console.log('New tab opened for Polly Notebook', newTab.url());
-
-  await newTab.locator("//p[normalize-space()='Your Notebook is launching']").waitFor({ state: 'visible', timeout: 10000 });
+  await expect(newTab.getByText('Your Notebook is launching', { exact: false })).toBeVisible({ timeout: 10000 });
   console.log('Notebook is launching, waiting for it to be ready...');
 
 console.log("Starting delete operation");
@@ -387,12 +386,12 @@ console.log("Starting delete operation");
   await page.locator("//div[contains(@class, 'cb__container__box')]/span[contains(@class, 'cb-icon')]").click();
   console.log("Checkbox clicked successfully");
   await page.locator("//span[normalize-space()='Delete Files']").click();
-  Console.log("File deleted successfully");
+  console.log("File deleted successfully");
 
     // Workspace settings: Archive Workspace
     await page.locator("//i[@class='polly-icon settings ng-star-inserted']").click();
     await page.waitForTimeout(2000);
-
+    console.log("Clicked on Workspace settings icon");
     await page.click("//span[normalize-space()='Archive']")
     await page.waitForTimeout(2000);
 
@@ -423,8 +422,8 @@ console.log("Starting delete operation");
 
 
       // Validating the archived workspace
-        await page.goto("https://polly.elucidata.io/manage/workspaces/dashboard")
-        await page.waitForLoadState('networkidle');
+  await page.goto("https://polly.elucidata.io/manage/workspaces/dashboard")
+  await page.waitForLoadState('networkidle');
 
 
   //const settingsButton = page.locator("//div[contains(@class, 'card--archived') and .//h3[normalize-space()='RE-try_auto']]");

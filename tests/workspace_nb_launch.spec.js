@@ -126,8 +126,8 @@ await page.locator("//span[normalize-space(text())='New Analysis']").click();
   const newTab = await page.context().waitForEvent('page');
   await newTab.waitForLoadState();
   console.log('New tab opened for Polly Notebook', newTab.url());
-
-  await newTab.locator("//p[normalize-space()='Your Notebook is launching']").waitFor({ state: 'visible', timeout: 10000 });
+await expect(newTab.getByText('Your Notebook is launching', { exact: false })).toBeVisible({ timeout: 10000 });
+ // await newTab.locator("//p[normalize-space()='Your Notebook is launching']").waitFor({ state: 'visible', timeout: 10000 });
   console.log('Notebook is launching, waiting for it to be ready...');
 
 
