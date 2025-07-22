@@ -222,51 +222,6 @@ await page.locator("//i[@class='polly-icon settings ng-star-inserted']").click()
 
 await page.waitForTimeout(20000); 
 
-*/
-  console.log("Starting search operation");
-    // Fill the search input
-    await page.locator('input[placeholder="Search for workspace content"]').fill('test folder');
-
-
-  // Wait a moment for search results to load (if needed)
-  await page.waitForTimeout(2000); // Optional delay — adjust if search is async
-
-/*
-
-  // Locate elements with class 'file-title__name' that contain 'report'
-  const contentNameLocator = page.locator('.file-title__name', {hasText: 'report'});
-
-  // Count matching elements
-  const count = await contentNameLocator.count();
-  console.log(`Found ${count} file(s) containing 'report'`);
-
-  // Print the text of each matched file
-  for (let i = 0; i < count; i++) {
-    const text = await contentNameLocator.nth(i).innerText();
-    console.log(`→ ${text}`);
-  }
-
-  await page.waitForTimeout(10000);
-
-*/
-  await page.locator("//p[normalize-space()='test folder']").first().click();
-
-
-  console.log("Starting rename operation");
-  //rename
-  await page.locator("//i[@class='polly-icon rename ng-star-inserted']").click();
-  // Fill the input field that appears
-  await page.locator("input[formcontrolname='fileName']").fill('renamed folder');
-
-  // (Optional) Click Save/Confirm if required
-  await page.locator("//div[contains(@class, 'button-container')]//span[normalize-space(text())='Rename']").click();
- await page.waitForTimeout(5000);
-
-  //await page.locator("//div[contains(@class, 'p-toast-message-text')]//p[normalize-space(text())='Successfully renamed']").waitFor({ state: 'visible', timeout: 120000 });
-
-  await page.waitForLoadState('networkidle');
-  await page.locator('input[placeholder="Search for workspace content"]').fill('');
-  await page.waitForTimeout(2000);
 
 
   
