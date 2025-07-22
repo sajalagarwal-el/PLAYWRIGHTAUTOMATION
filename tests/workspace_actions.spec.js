@@ -372,7 +372,12 @@ await page.locator("//p[normalize-space(text())='Polly Notebook Mon Jun 09 2025 
   console.log('New tab opened for Polly Notebook', newTab.url());
   await expect(newTab.getByText('Your Notebook is launching', { exact: false })).toBeVisible({ timeout: 10000 });
   console.log('Notebook is launching, waiting for it to be ready...');
-
+  const workerId1 = test.info().workerIndex;
+  const timestampSend = new Date().toISOString().replace(/[:.]/g, '-');
+  await newTab.screenshot({
+    path: `screenshots/after_send_worker${workerId1}_${timestampSend}.png`,
+    fullPage: true
+  });
 console.log("Starting delete operation");
 
   //delete
