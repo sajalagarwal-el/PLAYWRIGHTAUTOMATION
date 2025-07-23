@@ -283,13 +283,14 @@ await page.waitForTimeout(20000);
 await page.locator("//p[normalize-space(text())='Polly Notebook Mon Jun 09 2025 7_54_22 PM.ipynb']").click();
     //clicking on the move icon
     await page.locator("//i[contains(@class, 'pan-move') and contains(@class, 'polly-icon')]").click();
-    await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(10000);
 
     
     // Step 1: Open the dropdown
     await page.locator("//span[@role='combobox' and @aria-label='RE-try_auto']").click();
-    await page.waitForTimeout(10000);
     await page.locator("//input[@role='searchbox']").fill('WS for automation');
+    await page.waitForTimeout(5000);
+
     await page.locator("//p[@class='m-0 label-large ng-star-inserted']").click();
     await page.locator("//span[normalize-space(text())='Move']").click();
     console.log("File moved successfully to the new workspace: WS for automation");
@@ -367,9 +368,17 @@ await page.locator("//p[normalize-space(text())='Polly Notebook Mon Jun 09 2025 
   console.log('Clicked on Launch button');
 
 
-  const newTab = await page.context().waitForEvent('page');
+
+  const [newTab] = await Promise.all([
+  page.context().waitForEvent('page', { timeout: 120000 }),
+  page.locator("//div[contains(@class, 'button-container')]//span[normalize-space(text())='Launch']").click(),
+]);
+await newTab.waitForLoadState();
+console.log('New tab opened for Polly Notebook', newTab.url());
+  /*const newTab = await page.context().waitForEvent('page');
   await newTab.waitForLoadState();
   console.log('New tab opened for Polly Notebook', newTab.url());
+  */
 
   await newTab.locator("//p[normalize-space()='Your Notebook is launching']").waitFor({ state: 'visible', timeout: 10000 });
   console.log('Notebook is launching, waiting for it to be ready...');
@@ -394,14 +403,14 @@ console.log("Starting delete operation");
     await page.waitForTimeout(2000);
 
     await page.click("//span[normalize-space()='Archive']")
-    await page.waitForTimeout(2000);
+await page.waitForTimeout(2000);
 
-    await page.locator("//div[contains(@class, 'cb__container__box')]").first().click();
+await page.locator("//div[contains(@class, 'cb__container__box')]").first().click();
 
     //await page.click('xpath=//span[@class="cb-icon"]');
-  await page.locator("//span[normalize-space()='Archive Workspace']").click();
+await page.locator("//span[normalize-space()='Archive Workspace']").click();
 
-  await page.waitForTimeout(10000);
+await page.waitForTimeout(10000);
 
   expect('Workspace archived successfully').toContain('Workspace archived successfully')
   expect(true).toBeTruthy()
@@ -423,10 +432,17 @@ console.log("Starting delete operation");
 
 
       // Validating the archived workspace
-        await page.goto("https://polly.elucidata.io/manage/workspaces/dashboard")
-        await page.waitForLoadState('networkidle');
+  await page.goto("https://polly.elucidata.io/manage/workspaces/dashboard")
+  await page.waitForLoadState('networkidle');
 
+  await page.locator("xpath=//h3[text()='RE-try_auto']").first().click();
+  await page.locator("//span[normalize-space()='Delete Permanently']").click();
+  await page.locator("//div[@class='cb__container__box'][span[@class='cb-icon']]").first().click();
+  await page.locator("//span[normalize-space()='Delete Workspace']").click();
+  await page.waitForTimeout(10000);
 
+  await page.goto("https://polly.elucidata.io/manage/workspaces/dashboard")
+  await page.waitForLoadState('networkidle');
   //const settingsButton = page.locator("//div[contains(@class, 'card--archived') and .//h3[normalize-space()='RE-try_auto']]");
   //expect(settingsButton).toBeTruthy();
   //console.log("Archived workspace RE-try_auto is visible in the dashboard");
