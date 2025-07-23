@@ -336,7 +336,7 @@ await page.locator("//p[normalize-space(text())='Polly Notebook Mon Jun 09 2025 
   await page.locator('input[placeholder="Search Client Organization"]').fill('Elucidata');
   console.log('Filled "Elucidata" in the search input');
   // Step 2: Wait for the dropdown options to load
-  await page.waitForSelector("li.p-autocomplete-item", { state: "visible", timeout: 120000 });
+  await page.waitForSelector("li.p-autocomplete-item", { state: "visible", timeout: 12000 });
   console.log('Dropdown options loaded successfully');
   // Step 3: Click on the desired option by its label
   await page.locator("//li[contains(@class, 'p-autocomplete-item') and .//p[text()='ElucidataInc']]").click();
@@ -369,19 +369,15 @@ await page.locator("//p[normalize-space(text())='Polly Notebook Mon Jun 09 2025 
 
 
 
-  const [newTab] = await Promise.all([
-  page.context().waitForEvent('page', { timeout: 120000 }),
-  page.locator("//div[contains(@class, 'button-container')]//span[normalize-space(text())='Launch']").click(),
-]);
-await newTab.waitForLoadState();
-console.log('New tab opened for Polly Notebook', newTab.url());
-  /*const newTab = await page.context().waitForEvent('page');
+  const newTab = await page.context().waitForEvent('page');
   await newTab.waitForLoadState();
   console.log('New tab opened for Polly Notebook', newTab.url());
-  */
+  
+await expect(newTab.getByText('Your Notebook is launching', { exact: false })).toBeVisible({ timeout: 10000 });
 
-  await newTab.locator("//p[normalize-space()='Your Notebook is launching']").waitFor({ state: 'visible', timeout: 10000 });
   console.log('Notebook is launching, waiting for it to be ready...');
+
+await newTab.close();
 
 console.log("Starting delete operation");
 
