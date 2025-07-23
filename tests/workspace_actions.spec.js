@@ -389,7 +389,7 @@ console.log("Starting delete operation");
   await page.locator("//p[normalize-space()='renamed folder']").first().click();
 
   await page.locator("//i[@class='delete polly-icon ng-star-inserted']").click();
-  await page.locator("//div[contains(@class, 'cb__container__box')]/span[contains(@class, 'cb-icon')]").click();
+  await page.locator("//div[@class='d-flex gap-1 align-items-center delete-files-container__body__section']//div[@class='cb__container__box']").click();
   console.log("Checkbox clicked successfully");
   await page.locator("//span[normalize-space()='Delete Files']").click();
   Console.log("File deleted successfully");
