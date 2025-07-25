@@ -6,7 +6,7 @@
     //await login(page, "srishti.mahale@elucidata.io", "Polly@1234");
     await login(page);
 
-    await page.goto("https://polly.elucidata.io/manage/workspaces/dashboard")
+    await page.goto("https://testpolly.elucidata.io/manage/workspaces/dashboard")
 
     await page.waitForLoadState('networkidle');
     console.log("Navigated to Workspaces Dashboard");
@@ -17,19 +17,21 @@
 
 
     await page.fill('//input[@id="workspace_name"]', 'try_auto')
-    await page.click('xpath=//span[text()="Create & Launch"]')
+    //span[normalize-space()='Create']
+    await page.click("//span[normalize-space()='Create & Launch']")
     await page.waitForTimeout(5000);
     const workspaceUrl = page.url();
     console.log("Filled in workspace name and clicked Create & Launch",workspaceUrl );
+    await page.waitForTimeout(5000);
 
 
 // Workspace settings: Quick Switch Workspace
-await page.goto('https://polly.elucidata.io/manage/workspaces?id=21315');
+await page.goto('https://testpolly.elucidata.io/manage/workspaces?id=16683');
     await page.waitForLoadState('networkidle');
 
     console.log("Starting move operation");
     //clicking on a file
-    await page.locator("//p[normalize-space(text())='Polly Notebook Mon Jun 09 2025 7_54_22 PM.ipynb']").click();
+    await page.locator("//p[normalize-space(text())='Polly Notebook Mon Jun 09 2025 7_54_22 PM (1).ipynb']").click();
     //clicking on the move icon
     await page.locator("//i[contains(@class, 'pan-move') and contains(@class, 'polly-icon')]").click();
   // Step 1: Open the dropdown
@@ -52,7 +54,7 @@ await page.goto('https://polly.elucidata.io/manage/workspaces?id=21315');
     await closeBtn2.click()
   
     //clicking on a file
-    await page.locator("//p[normalize-space(text())='Polly Notebook Mon Jun 09 2025 7_54_22 PM.ipynb']").click();
+    await page.locator("//p[normalize-space(text())='Polly Notebook Mon Jun 09 2025 7_54_22 PM (1).ipynb']").click();
     //clicking on the move icon
     await page.locator("//i[contains(@class, 'pan-move') and contains(@class, 'polly-icon')]").click();
     await page.waitForLoadState('networkidle');
@@ -68,6 +70,7 @@ await page.goto('https://polly.elucidata.io/manage/workspaces?id=21315');
   //copying
     console.log("Starting copy operation");
     await page.locator("//p[normalize-space(text())='report.txt']").click();
+    await page.waitForTimeout(3000);
 
     //clicking on the copy icon
   //await page.locator("//i[contains(@class, 'pan-copy') and contains(@class, 'polly-icon')]").click();
@@ -98,6 +101,7 @@ await page.goto('https://polly.elucidata.io/manage/workspaces?id=21315');
   
   //clicking on a file
     await page.locator("//p[normalize-space(text())='report.txt']").click();
+    await page.waitForTimeout(3000);
 
 
     //clicking on the copy icon
@@ -130,6 +134,7 @@ await page.waitForLoadState('networkidle');
     await page.getByPlaceholder("Enter folder name").fill("test folder");
     await page.click('xpath=//span[text()="Create"]')
     console.log("Created a new folder named 'test folder'");
+await page.waitForTimeout(5000);
 
   console.log("Starting search operation");
     // Fill the search input
@@ -137,7 +142,7 @@ await page.waitForLoadState('networkidle');
 
 
   // Wait a moment for search results to load (if needed)
-  await page.waitForTimeout(2000); // Optional delay — adjust if search is async
+  await page.waitForTimeout(5000); // Optional delay — adjust if search is async
 
 /*
 
@@ -168,13 +173,16 @@ await page.waitForLoadState('networkidle');
 
   // (Optional) Click Save/Confirm if required
   await page.locator("//div[contains(@class, 'button-container')]//span[normalize-space(text())='Rename']").click();
- await page.waitForTimeout(5000);
+    await page.waitForTimeout(5000);
+
+ //await page.waitFor({ state: 'visible', timeout: 120000 });
 
   //await page.locator("//div[contains(@class, 'p-toast-message-text')]//p[normalize-space(text())='Successfully renamed']").waitFor({ state: 'visible', timeout: 120000 });
 
   await page.waitForLoadState('networkidle');
   await page.locator('input[placeholder="Search for workspace content"]').fill('');
   await page.waitForTimeout(2000);
+  
 /*
 
   // Locate elements with class 'file-title__name' that contain 'report'
@@ -245,42 +253,16 @@ await page.waitForLoadState('networkidle');
   // Step 3: Click the "Admin" option
     await page.locator("//span[@class=\"ng-star-inserted\" and normalize-space()='admin']").click();
     await page.waitForTimeout(5000);
-    await page.locator("//button[@class='d-flex justify-content-center align-items-center nowrap btn-type-secondary btn-size-medium cursor-pointer']//div[@class='button-container d-flex align-items-center label-large gap-1']").click();
-  await page.waitForTimeout(5000);
+    await page.locator("//span[normalize-space()='Add']").click();
+    await page.waitForTimeout(5000);
     await page.locator("//span[normalize-space()='Done']").click();
     console.log("Added collaborator");
 
 
   
-  //searching for a file
-await page.waitForTimeout(20000);
-
-  
-/*
-await page.locator("//i[@class='polly-icon settings ng-star-inserted']").click();
-  // Workspace settings: Quick Switch Workspace
-    await page.click('xpath=//span[text()="Quick Switch Workspace"]')
-    await page.click('xpath=//p[normalize-space(text())="RE-try_auto"]')
-    await page.waitForLoadState('networkidle');
-
-  console.log("Switched back to workspace: RE-try_auto");
-    //await page.locator("//p[normalize-space()='report3.html']").waitFor({ state: 'visible', timeout: 10000 });
-
-await page.waitForTimeout(20000); 
-
-*/
-
-
-  
-  // 1. Wait for the loader icon to disappear
-// await page.locator("i.polly-icon.loading-icon.spin").waitFor({ state: 'hidden', timeout: 30000 });
-
-// // 2. Wait for the renamed folder to be visible
-// await page.locator("//p[normalize-space()='renamed folder']").waitFor({ state: 'visible', timeout: 10000 });
-//   console.log('The file renamed re-report.txt is present in the workspace: WS for automation');
-
-
-await page.locator("//p[normalize-space(text())='Polly Notebook Mon Jun 09 2025 7_54_22 PM.ipynb']").click();
+    //searching for a file
+    await page.waitForTimeout(10000);
+    await page.locator("//p[normalize-space(text())='Polly Notebook Mon Jun 09 2025 7_54_22 PM (1).ipynb']").click();
     //clicking on the move icon
     await page.locator("//i[contains(@class, 'pan-move') and contains(@class, 'polly-icon')]").click();
     await page.waitForTimeout(10000);
@@ -304,28 +286,11 @@ await page.locator("//p[normalize-space(text())='Polly Notebook Mon Jun 09 2025 
   
 
 
-/*
-  console.log("Returning to the WS we created using automation");
-
-  await page.locator("//i[@class='polly-icon settings ng-star-inserted']").click();
-  // Workspace settings: Quick Switch Workspace
-    await page.click('xpath=//span[text()="Quick Switch Workspace"]')
-    await page.click('xpath=//p[normalize-space(text())="RE-try_auto"]')
-    await page.waitForLoadState('networkidle');
-
-  console.log("Switched back to workspace: RE-try_auto");
-    await page.locator("//p[normalize-space()='re-report.txt']").waitFor({ state: 'visible', timeout: 10000 });
-  console.log('The file named "report.txt" that was copied is present in the workspace: RE-try_auto');
-
-*/
-  //await page.locator("//p[normalize-space()='Polly Notebook Mon Jun 09 2025 7_54_22 PM.ipynb']").waitFor({ state: 'visible', timeout: 10000 });
-  //console.log('The file named "Polly Notebook Mon Jun 09 2025 7_54_22 PM.ipynb" that was moved is present in the workspace: RE-try_auto');
-
 
 
   //launching a notebook
   await page.locator("//span[normalize-space(text())='New Analysis']").click();
-    await page.locator("//p[normalize-space(text())='Polly Notebook']").click();
+  await page.locator("//p[normalize-space(text())='Polly Notebook']").click();
 
   //selecting elucidata R&D from teh list
   // 1. Click the dropdown caret to open the suggestions
@@ -339,22 +304,22 @@ await page.locator("//p[normalize-space(text())='Polly Notebook Mon Jun 09 2025 
   await page.waitForSelector("li.p-autocomplete-item", { state: "visible", timeout: 12000 });
   console.log('Dropdown options loaded successfully');
   // Step 3: Click on the desired option by its label
-  await page.locator("//li[contains(@class, 'p-autocomplete-item') and .//p[text()='ElucidataInc']]").click();
-  console.log('Selected "ElucidataInc" from the dropdown');
+  await page.locator("//li[contains(@class, 'p-autocomplete-item') and .//p[text()='elucidata']]").click();
+  console.log('Selected "elucidata" from the dropdown');
 
 
   // Step 1: Open dropdown
   await page.locator("//span[@aria-label='Select a Docker']").click();
 
-
   // Optional: wait for the dropdown options to appear
   await page.waitForSelector("li.p-dropdown-item").waitForLoadState;
   console.log('Selected Docker from dropdown');
+
   // Step 2: Select the desired option
   await page.locator("li.p-dropdown-item", { hasText: 'Python 3.10: Notebook environment for Python 3.10 ' }).click();
   console.log('Selected Notebook environment from the dropdown');
 
-  ///////////////
+  
   // 1. Click the dropdown trigger to open the options
   await page.locator("//span[@aria-label='Select a Machine']").click();
 
@@ -368,18 +333,14 @@ await page.locator("//p[normalize-space(text())='Polly Notebook Mon Jun 09 2025 
   console.log('Clicked on Launch button');
 
 
-
+  
   const newTab = await page.context().waitForEvent('page');
   await newTab.waitForLoadState();
-  console.log('New tab opened for Polly Notebook', newTab.url());
-  
-await expect(newTab.getByText('Your Notebook is launching', { exact: false })).toBeVisible({ timeout: 10000 });
-
+  console.log('New tab opened for Polly Notebook', newTab.url());  
+  await expect(newTab.getByText('Your Notebook is launching', { exact: false })).toBeVisible({ timeout: 10000 });
   console.log('Notebook is launching, waiting for it to be ready...');
-
-await newTab.close();
-
-console.log("Starting delete operation");
+  await newTab.close();
+  console.log("Starting delete operation");
 
   //delete
   await page.locator('input[placeholder="Search for workspace content"]').fill('renamed folder');
@@ -392,7 +353,7 @@ console.log("Starting delete operation");
   await page.locator("xpath=//label[normalize-space()='I am sure I want to permanently delete these files']").click();
   console.log("Checkbox clicked successfully");
   await page.locator("//span[normalize-space()='Delete Files']").click();
-  Console.log("File deleted successfully");
+  console.log("File deleted successfully");
 
     // Workspace settings: Archive Workspace
     await page.locator("//i[@class='polly-icon settings ng-star-inserted']").click();
@@ -428,7 +389,7 @@ await page.waitForTimeout(10000);
 
 
       //Deleting the archived workspace
-  await page.goto("https://polly.elucidata.io/manage/workspaces/dashboard")
+  await page.goto("https://testpolly.elucidata.io/manage/workspaces/dashboard")
   await page.waitForLoadState('networkidle');
 
   await page.locator("xpath=//h3[text()='RE-try_auto']").first().click();
@@ -437,7 +398,7 @@ await page.waitForTimeout(10000);
   await page.locator("//span[normalize-space()='Delete Workspace']").click();
   await page.waitForTimeout(10000);
 
-  await page.goto("https://polly.elucidata.io/manage/workspaces/dashboard")
+  await page.goto("https://testpolly.elucidata.io/manage/workspaces/dashboard")
   await page.waitForLoadState('networkidle');
   //const settingsButton = page.locator("//div[contains(@class, 'card--archived') and .//h3[normalize-space()='RE-try_auto']]");
   //expect(settingsButton).toBeTruthy();
