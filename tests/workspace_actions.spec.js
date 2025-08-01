@@ -389,7 +389,8 @@ console.log("Starting delete operation");
   await page.locator("//p[normalize-space()='renamed folder']").first().click();
 
   await page.locator("//i[@class='delete polly-icon ng-star-inserted']").click();
-  await page.locator("xpath=//label[normalize-space()='I am sure I want to permanently delete these files']").click();
+  await page.locator("//div[contains(@class, 'cb__container__box')]/span[contains(@class, 'cb-icon')]").click();
+  //div[@class='d-flex gap-1 align-items-center delete-files-container__body__section']//div[@class='cb__container__box']
   console.log("Checkbox clicked successfully");
   await page.locator("//span[normalize-space()='Delete Files']").click();
   Console.log("File deleted successfully");
@@ -427,7 +428,7 @@ await page.waitForTimeout(10000);
         //await page.waitForLoadState('networkidle');
 
 
-      //Deleting the archived workspace
+      // Validating the archived workspace
   await page.goto("https://polly.elucidata.io/manage/workspaces/dashboard")
   await page.waitForLoadState('networkidle');
 
