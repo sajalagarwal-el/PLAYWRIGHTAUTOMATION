@@ -3,7 +3,6 @@
   import { login } from './helpers';
 
   test('should perform full workspace flow: create, edit, switch, watch, and archive', async ({ page }) => {
-    //await login(page, "srishti.mahale@elucidata.io", "Polly@1234");
     await login(page);
 
     await page.goto("https://polly.elucidata.io/manage/workspaces/dashboard")
@@ -379,22 +378,21 @@ await expect(newTab.getByText('Your Notebook is launching', { exact: false })).t
 
 await newTab.close();
 
-console.log("Starting delete operation");
+console.log("Starting delete file operation");
 
   //delete
   await page.locator('input[placeholder="Search for workspace content"]').fill('renamed folder');
-  await page.waitForTimeout(2000); // Optional delay — adjust if search is async
-
+  //await page.waitForTimeout(2000); // Optional delay — adjust if search is async
+  await page.waitForLoadState('networkidle');
 
   await page.locator("//p[normalize-space()='renamed folder']").first().click();
 
   await page.locator("//i[@class='delete polly-icon ng-star-inserted']").click();
-  await page.locator("//div[contains(@class, 'cb__container__box')]/span[contains(@class, 'cb-icon')]").click();
+  await page.locator("//body//app-root//app-polly-manage-details//polly-checkbox//div[2]").click();
   //div[@class='d-flex gap-1 align-items-center delete-files-container__body__section']//div[@class='cb__container__box']
   console.log("Checkbox clicked successfully");
   await page.locator("//span[normalize-space()='Delete Files']").click();
-  Console.log("File deleted successfully");
-
+  console.log("Folder deleted successfully");
     // Workspace settings: Archive Workspace
     await page.locator("//i[@class='polly-icon settings ng-star-inserted']").click();
     await page.waitForTimeout(2000);
