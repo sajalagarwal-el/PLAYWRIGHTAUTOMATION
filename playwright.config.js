@@ -39,6 +39,15 @@ module.exports = defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
+    {
+      name: 'edge',
+      use: {
+        browserName: 'chromium',
+        channel: 'msedge',
+        // reuse Desktop Chrome device settings (viewport, userAgent, etc.)
+        ...devices['Desktop Chrome'],
+      },
+    },
   ],
 
   /* Run your local dev server before starting the tests */

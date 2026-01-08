@@ -29,6 +29,9 @@ jobs:
     - name: Run tests on Chrome in headless mode
       run: npx playwright test --project=chromium
 
+    - name: Run tests on Edge in headless mode
+      run: npx playwright test --project=edge
+
     - name: Run Playwright tests
       run: npx playwright test
 

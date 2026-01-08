@@ -48,16 +48,16 @@ test('running NLQ parallely', async ({ page }) => {
   // await newTab.waitForLoadState();
 
 
-  await newTab.locator("//textarea[@id='prompt-input-textarea']").fill("In which species is the gene NKAIN4 lost?");
+  await page.locator("//textarea[@id='prompt-input-textarea']").fill("In which species is the gene NKAIN4 lost?");
   console.log('Filled the query in the textarea');
-  await newTab.locator("//span[contains(text(),'Send')]").click();
+  await page.locator("//span[contains(text(),'Send')]").click();
   console.log('Clicked on the button to run the query');
 
   // Wait for 9 seconds and take a screenshot
-  await newTab.waitForTimeout(9000);
+  await page.waitForTimeout(9000);
   const workerId1 = test.info().workerIndex;
   const timestampSend = new Date().toISOString().replace(/[:.]/g, '-');
-  await newTab.screenshot({
+  await page.screenshot({
     path: `screenshots/after_send_worker${workerId1}_${timestampSend}.png`,
     fullPage: true
   });
