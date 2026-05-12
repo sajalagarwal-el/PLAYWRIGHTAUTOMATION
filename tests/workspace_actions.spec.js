@@ -22,7 +22,7 @@
     console.log("Filled in workspace name and clicked Create & Launch",workspaceUrl );
 
 
-// Workspace settings: Quick Switch Workspace
+// Workspace settings: Quick Switch Workspaces
 await page.goto('https://polly.elucidata.io/manage/workspaces?id=21315');
     await page.waitForLoadState('networkidle');
 
