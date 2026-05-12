@@ -17,7 +17,7 @@
 
     await page.fill('//input[@id="workspace_name"]', 'try_auto')
     await page.click('xpath=//span[text()="Create & Launch"]')
-    await page.waitForTimeout(5000);
+    await page.waitForURL(/\/manage\/workspaces\?id=\d+/, { timeout: 30000 });
     const workspaceUrl = page.url();
     console.log("Filled in workspace name and clicked Create & Launch",workspaceUrl );
 
@@ -36,7 +36,7 @@ await page.goto('https://polly.elucidata.io/manage/workspaces?id=21315');
     await page.waitForTimeout(3000);
 
   // Step 2: Wait for the options to be visible
-    await page.waitForSelector("//li[contains(@class, 'p-dropdown-item')]");
+    await page.getByRole('option').first().waitFor({ state: 'visible' });
 
   // Step 3: Click the specific option
     await page.locator("//p[normalize-space()='WS for automation']").click();
@@ -46,8 +46,7 @@ await page.goto('https://polly.elucidata.io/manage/workspaces?id=21315');
     expect(true).toBeTruthy()
     console.log("Move operation failed as expected: Destination matches the Source");
 
-    //await page.locator("//button[.//svg[@class='p-dialog-header-close-icon p-icon']]").click();
-    const closeBtn2 = page.locator("xpath=//button[contains(@class, 'p-dialog-header-close')]")
+    const closeBtn2 = page.locator('.p-dialog-header').getByRole('button');
     await closeBtn2.click()
   
     //clicking on a file
@@ -78,21 +77,19 @@ await page.goto('https://polly.elucidata.io/manage/workspaces?id=21315');
     await page.waitForTimeout(10000);
 
   // Step 2: Wait for the options to be visible
-    await page.waitForSelector("//li[contains(@class, 'p-dropdown-item')]");
+    await page.getByRole('option').first().waitFor({ state: 'visible' });
 
   // Step 3: Click the specific option
     await page.locator("//p[normalize-space()='WS for automation']").click();
 
-    //selecting the same destination folder and click copy 
+    //selecting the same destination folder and click copy
     await page.locator("//div[contains(@class, 'button-container')]//span[normalize-space(text())='Copy']").click();
-  //await page.getByText('Copy').click();
 
     expect("Destination matches the Source").toContain('Destination matches the Source')
     expect(true).toBeTruthy()
   console.log("Copy operation failed as expected: Destination matches the Source");
 
-    //await page.locator("//button[.//svg[@class='p-dialog-header-close-icon p-icon']]").click();
-  const closeBtn = page.locator("xpath=//button[contains(@class, 'p-dialog-header-close')]")
+  const closeBtn = page.locator('.p-dialog-header').getByRole('button');
     await closeBtn.click()
   
   //clicking on a file
@@ -199,7 +196,7 @@ await page.waitForLoadState('networkidle');
     await page.locator('button:has(i.settings)').click();
     await page.getByText('Info').click();
     //await page.locator('span.p-dialog-header-close-icon.pi-times').click();
-    const closeBtn1 = page.locator("xpath=//button[contains(@class, 'p-dialog-header-close')]")
+    const closeBtn1 = page.locator('.p-dialog-header').getByRole('button');
     await closeBtn1.click()
 
 
@@ -244,7 +241,7 @@ await page.waitForLoadState('networkidle');
   // Step 3: Click the "Admin" option
     await page.locator("//span[@class=\"ng-star-inserted\" and normalize-space()='admin']").click();
     await page.waitForTimeout(5000);
-    await page.locator("//button[@class='d-flex justify-content-center align-items-center nowrap btn-type-secondary btn-size-medium cursor-pointer']//div[@class='button-container d-flex align-items-center label-large gap-1']").click();
+    await page.getByRole('button', { name: 'Add' }).click();
   await page.waitForTimeout(5000);
     await page.locator("//span[normalize-space()='Done']").click();
     console.log("Added collaborator");
@@ -335,10 +332,10 @@ await page.locator("//p[normalize-space(text())='Polly Notebook Mon Jun 09 2025 
   await page.locator('input[placeholder="Search Client Organization"]').fill('Elucidata');
   console.log('Filled "Elucidata" in the search input');
   // Step 2: Wait for the dropdown options to load
-  await page.waitForSelector("li.p-autocomplete-item", { state: "visible", timeout: 12000 });
+  await page.getByRole('option').first().waitFor({ state: 'visible', timeout: 12000 });
   console.log('Dropdown options loaded successfully');
   // Step 3: Click on the desired option by its label
-  await page.locator("//li[contains(@class, 'p-autocomplete-item') and .//p[text()='ElucidataInc']]").click();
+  await page.getByRole('option', { name: 'ElucidataInc' }).click();
   console.log('Selected "ElucidataInc" from the dropdown');
 
 
@@ -347,10 +344,10 @@ await page.locator("//p[normalize-space(text())='Polly Notebook Mon Jun 09 2025 
 
 
   // Optional: wait for the dropdown options to appear
-  await page.waitForSelector("li.p-dropdown-item").waitForLoadState;
+  await page.getByRole('option').first().waitFor({ state: 'visible' });
   console.log('Selected Docker from dropdown');
   // Step 2: Select the desired option
-  await page.locator("li.p-dropdown-item", { hasText: 'Python 3.10: Notebook environment for Python 3.10 ' }).click();
+  await page.getByRole('option', { name: 'Python 3.10', exact: false }).click();
   console.log('Selected Notebook environment from the dropdown');
 
   ///////////////
@@ -358,10 +355,10 @@ await page.locator("//p[normalize-space(text())='Polly Notebook Mon Jun 09 2025 
   await page.locator("//span[@aria-label='Select a Machine']").click();
 
   // 2. Wait for the dropdown options to load
-  await page.waitForSelector("li.p-dropdown-item");
+  await page.getByRole('option').first().waitFor({ state: 'visible' });
 
-  // 3. Click the specific option: "Elucidata R&D"
-  await page.locator("li.p-dropdown-item", { hasText: 'PollyN medium:2 vCPU, 4GB RAM'}).click();
+  // 3. Click the specific option
+  await page.getByRole('option', { name: 'PollyN medium', exact: false }).click();
   console.log('Selected machine from the dropdown');
   await page.locator("//div[contains(@class, 'button-container')]//span[normalize-space(text())='Launch']").click();
   console.log('Clicked on Launch button');
@@ -448,7 +445,7 @@ await page.waitForTimeout(10000);
   await page.waitForLoadState('networkidle');
 
   // Step 2: Wait for the options to appear
-  await page.waitForSelector("//li[contains(@class, 'p-dropdown-item')]");
+  await page.getByRole('option').first().waitFor({ state: 'visible' });
 
   // Step 3: Select the desired option from the dropdown
   await page.locator("//li[@role='option' and span[text()='Owned by you']]").click();
